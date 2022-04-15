@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <title>replit</title>
+  </head>
+  <body>
+
+<script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    }
+  }
+</script>
+
+<script type = "module">
+    import { createApp } from 'vue'
+
+    createApp({
+      data(){
+        return{
+          count: myCount + 0, 
+          total: 15,
+          eventFull: false,
+          event: "Event Registration",
+          inputMsg: "",
+          submitSuccess: false,
+          
+          name: []
+        }
+      },
+      methods: {
+        submit(){
+          if (this.name.length > 1){
+          google.script.run.addRow(this.name);
+          this.submitSuccess = true;
+          this.inputMsg = "";
+          }else{
+            this.inputMsg = "Please enter you name";
+          }
+        },
+        getCount(){
+        let x = google.script.run.getCount();
+        this.count = x + 0;
+        }
+      }
+    
+    }).mount('#app')
+  </script>
+   
+<div id="app" class="container">
+
+<h2> {{event}} </h2>
+<hr>
+
+<div v-if="!submitSuccess">
+  <h3 v-if="count<total">Available Seats: <span>{{total-count}}<span></h3>
+  <h3 v-if="count>=total">Sorry, all <span>{{total}}</span> seats have been reserved</h3>
+</div>
+
+  <div class = "row" v-if="count<total">
+    <div v-if="!submitSuccess" class = "six columns">
+      <label for="nameInput">Enter Your Name</label>
+      <input type="text" id="nameInput" v-model = "name" required value = "true">
+      
+      <span class="checkmark"></span>
+    </div>
+  </div>
+    <div class = "row" v-if="!submitSuccess">
+      <button @click="submit"id="btn" class="button-primary">Register</button>
+    </div>
+ 
+  <div id="inputMsg">{{inputMsg}}</div>
+  
+  <div v-if="submitSuccess">
+   <p>
+     Thank you <span>{{name}}</span> for registering for <span>{{event}}</span>
+   </p>
+  </div>
+
+</div>
+
+<style>
+input:invalid + span::after {
+  content: '❌';
+}
+input:valid+span::after {
+  content: '✓';
+  background-color: chartreuse;
+  font-weight: 800;
+}
+</style>
+
+<script>
+let myCount = <?!= JSON.stringify(count) ?>;
+</script>
+
+    
+  </body>
+</html>
