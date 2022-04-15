@@ -6,7 +6,7 @@ function doGet(){
 
 function getCount(){
   // let ss = SpreadsheetApp.getActiveSpreadsheet();
-  let ss = SpreadsheetApp.openById("18vGodbpn7eU5kvAJOt30x85qkamp3KgVOJLYx6n4brE");
+  let ss = SpreadsheetApp.openById("ID GOES HERE");
   let sh = ss.getSheetByName('Sign Up');
   let data = sh.getDataRange().getValues();
   return data.length - 1;
